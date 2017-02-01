@@ -1,0 +1,31 @@
+<h2>Hi <%= @user.first_name %>!</h2>
+<a href="/logout">Logout</a>
+<h3>Here are the organizations you may join:</h3>
+
+<% @groups.each do |g| %>
+<a href="/groups/<%= g.id %>"><%= g.name %></a>
+<p>Members: <%= g.members.count %></p>
+<p>Description: <%= g.description %></p>
+<% if @user.id == g.user_id %>
+	<form action="/destroy" method="POST">
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+		<input type="hidden" name="group_id" value="<%= g.id %>">
+		<input type="hidden" name="_method" value="delete">
+		<input type="submit" value="Delete">
+	</form>
+<% end %>
+<hr>
+<% end %>
+
+<h3>Create a new organization:</h3>
+<form action="/create_group" method="POST">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<p>Org Name:</p>
+  <p><input type="text" name="name"></p>
+	<p>Description:</p>
+  <p><textarea name="description"></textarea></p>
+	<input type="submit" value="Create">
+</form>
+<% if flash[:errors] %>
+	<%= flash[:errors] %>
+<% end %>

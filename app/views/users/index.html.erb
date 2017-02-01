@@ -1,0 +1,50 @@
+<% if flash[:log_errors] %>
+<div>
+<% flash[:log_errors].each do |error| %>
+<h4> <%= error[1][0] unless error[0] == "password" %> </h4>
+<h4> <%= error[1][1] if error[0] == "password" %> </h4>
+<% end %>
+</div>
+<% end %>
+<% if flash[:log_error] %>
+<div>
+  <h4><%= flash[:log_error] %></h4>
+</div>
+<% end %>
+<form  action="/log_user" method="post">
+<div>
+  <div>
+    <h2>Login</h2>
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <p><input type="text" placeholder ="email" name='email' required></p>
+      <p><input type="password" name="password" placeholder ="password" required></p>
+      <input type="submit" value="Login" class="input-submit"> <br>
+  </div>
+</div>
+</form>
+
+<form action="/create_user" method="post">
+  <% if flash[:notice] %>
+  <div>
+      <strong><%= flash[:notice] %></strong>
+  </div>
+  <%end%>
+  <% if flash[:errors] %>
+  <div>
+      <% flash[:errors].each do |error| %> <br>
+      <strong><%= error%></strong>
+      <%end%>
+  </div>
+  <%end%>
+  <div>
+    <h2>Register</h2>
+    <div>
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <p><input type="text" name="first_name" placeholder="First Name" required></p>
+      <p><input type="text" name="last_name" placeholder="Last Name" required></p>
+      <p><input type="email" name="email"  placeholder="Enter email" required></p>
+      <p><input type="password" name="password" placeholder="Password" required></p>
+      <input type="submit" name="" value="Register">
+    </div>
+  </div>
+</form>
